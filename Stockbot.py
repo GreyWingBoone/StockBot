@@ -29,6 +29,9 @@ from datetime import datetime, timedelta
 from alpaca.data.requests import StockBarsRequest
 from alpaca.data.timeframe import TimeFrame
 from alpaca.data.historical import StockHistoricalDataClient
+import uuid
+
+RUN_ID = str(uuid.uuid4())
 
 # --- CONFIG ---
 RUN_BACKTEST = True  # True = run backtester, False = run live monitoring
@@ -378,17 +381,26 @@ class PortfolioBacktester:
                         exit_price = price
                         pnl = (exit_price - pos['entry']) * pos['qty']
                         self.cash += pos['qty'] * exit_price
-                        self.trades.append({
+                        balance_after = self.cash
+                        trade_record = {
                             "symbol": symbol,
                             "strategy": pos['strategy'],
-                            "entry": pos['entry'],
-                            "exit": exit_price,
-                            "qty": pos['qty'],
-                            "pnl": pnl,
+                            "entry": float(pos['entry']),
+                            "exit": float(exit_price),
+                            "qty": int(pos['qty']),
+                            "pnl": float(pnl),
                             "entry_date": str(pos['entry_date']),
                             "exit_date": str(day),
-                            "balance_after": float(self.cash)
-                        })
+                            "balance_after": float(balance_after)
+                        }
+                        self.trades.append(trade_record)
+
+                        with engine.begin() as conn:
+                            conn.execute(text("""
+                                INSERT INTO backtest_trades 
+                                (run_id, symbol, strategy, entry, exit, entry_date, exit_date, qty, pnl, balance_after)
+                                VALUES (:run_id, :symbol, :strategy, :entry, :exit, :entry_date, :exit_date, :qty, :pnl, :balance_after)
+                            """), {**trade_record, "run_id": RUN_ID})
                         del self.positions[symbol]
                         break
 
