@@ -34,7 +34,7 @@ from alpaca.data.historical import StockHistoricalDataClient
 RUN_BACKTEST = True  # True = run backtester, False = run live monitoring
 CONFIG = {
     #"symbols": ["CCL", "NVDA", "FUBO"],
-    "symbols": ["AACG", "AAME", "AAPI", "ABAT", "ABCL", "ABSI", "ABUS", "ABVC", "ACCO", "ACDC", "ACHV", "ACIU", "ACRE", "ACTG", "ACXAF", "ADAG", "ADCT", "ADVM", "AFCG", "AGEN", "AGH", "AIJTY", "AIMFF", "AIOT", "AIRG", "AIRJ", "AISP", "AKBA", "ALEC", "ALM", "ALMS", "ALNPY", "ALSMY", "ALT", "ALTI", "ALVOF", "AMBI", "AMBR", "AMC", "AMPG", "AMPY", "AMTX", "ANEB", "ANGH", "ANIX", "ANNA", "ANNX", "ANRO", "ANTE", "AP"],
+    "symbols": ["AACG", "AAME", "AAPI", "ABAT", "ABCL", "ABSI", "ABUS", "ABVC", "ACCO", "ACDC", "ACHV", "ACIU", "ACRE", "ACTG", "ACXAF", "ADAG", "ADCT", "ADVM", "AFCG", "AGEN", "AGH", "AIJTY", "AIMFF", "AIOT", "AIRG", "AIRJ", "AISP", "AKBA", "ALEC", "ALM", "ALMS", "ALNPY", "ALSMY", "ALT", "ALTI", "ALVOF", "AMBI", "AMBR", "AMC", "AMPG", "AMPY", "AMTX", "ANEB", "ANGH", "ANIX", "ANNA", "ANNX", "ANRO", "ANTE", "AP", "API", "APPS", "APT", "AQST", "ARAI", "AREC", "ARKO", "ARMP", "ARTV", "ASM", "ASOMY", "ASTL", "ATAI", "ATLN", "ATOM", "ATUS", "AUID", "AVIR", "AWP", "AXTI", "BAER", "BCHG", "BDMD", "BDN", "BDTX", "BEEP", "BGS", "BHR", "BIOA", "BIOX", "BIREF", "BLDE", "BLDP", "BLND", "BMHL", "BNEFF", "BORR", "BRAG", "BRBS", "BRIA", "BRLS", "BROGF", "BRY", "BSGM", "BTAI", "BTBIF", "BTBT", "BTCM", "BTCS", "BTE", "BTM", "BTMD", "BTQQF", "BW", "BYND", "BZAI", "BZUN", "CAAS", "CANG", "CATO", "CATX", "CBRA", "CCCC", "CCLD", "CDXS", "CDZI", "CELU", "CFWFF", "CGTX", "CHMI", "CHTH", "CIK", "CLAR", "CLBEY", "CLNE", "CLOV", "CLPR", "CLYM", "CMPS", "CMPX", "CMRB", "CMRC", "CMRF", "CMTG", "CMU", "CNDT", "CNTB", "CNTY", "CNVS", "CPIX", "CPSH", "CRDF", "CRGO", "CRNT", "CRON", "CTKB", "CTMX", "CTOR", "CTW", "CULP", "CURI", "CURV", "CV", "CXE", "CYBHF", "CYH", "DAIC", "DBI", "DC", "DDD", "DDEJF", "DDL", "DEFT", "DELHY", "DENN", "DGXX", "DH", "DHC", "DHF", "DHX", "DHY", "DIBS", "DLNG", "DLTH", "DNGDF", "DNUT", "DOUG", "DPRO", "DRTS", "DSWL", "DTI", "DTIL", "DVS", "DVSPF", "EB", "ECNCF", "ECSNF", "EDAP", "EDIT", "EGY", "EHTH", "EKTAY", "ELDN", "ELRNF", "ELUT", "EMX", "ENGN", "ENGS", "ESGL", "ESPR", "ETHZ", "EU", "EUDA", "EVC", "EVEX", "EVGO", "EVTL", "EWCZ", "FACO", "FBIO", "FCCN", "FCEL", "FEAM", "FECCF", "FF", "FFAI", "FIP", "FKWL", "FLD", "FLL", "FLNT", "FLX", "FLYX", "FNKO", "FOSL", "FRMUF", "FTCO", "FTEK", "FUBO", "FUFU", "GALT", "GAU", "GCI", "GCL", "GCV", "GDC", "GDRX", "GDRZF", "GEG", "GEODF", "GGN", "GGT", "GHG", "GLUE", "GLXZ", "GMM", "GNLX", "GNTA", "GOAI", "GOSS", "GOTU", "GPMT", "GRAN", "GROY", "GSIT", "GSM", "GTE", "GUYGF", "HAIVF", "HBNB", "HCAT", "HELFY", "HEPS", "HFFG", "HIO", "HIT", "HITI", "HIVE", "HIX", "HLLY", "HLSCF", "HLTRF", "HLVX", "HNST", "HPAI", "HPP", "HTLM", "HURA", "HUYA", "HYEX", "HYMC", "IAF", "ICTSF", "IH", "IHRT", "IMAB", "IMDX", "IMMX", "IMPP", "INDI", "INMB", "INNV", "INO", "INVE", "IOVA", "IPA", "IPMLF", "IRBT", "ISPR", "ITFS", "ITMSF", "ITRG", "IZEA", "JAGGF", "JRNGF", "KELTF", "KHTRF", "KLRS", "KOPN", "KRMD", "KRNGY", "KSIOF", "KULR", "KYTX", "LAC", "LAES", "LANV", "LAR", "LASE", "LCUT", "LDI", "LFT", "LHSW", "LIDR", "LIMN", "LIMX", "LITRF", "LOCL", "LODE", "LOT", "LPRO", "LRMR", "LSAK", "LTRX", "LVWR", "LWLG", "LXEO", "LZM", "LZMH", "MAAS", "MAMO", "MATH", "MAUTF", "MAXN", "MBOT", "MCCRF", "MDRX", "MDXH", "MEDXF", "MEHCQ", "MEIP", "MERC", "MGF", "MIN", "MMLP", "MMT", "MNKD", "MNTK", "MPU", "MRT", "MRVI", "MSC", "MVST", "MX", "MXGFF", "NAMM", "NAT", "NB", "NBBI", "NCMI", "NEOV", "NEXA", "NFE", "NGENF", "NHTC", "NIU", "NKRKY", "NKTX", "NNBR", "NNOX", "NNXPF", "NPWR", "NRGV", "NRO", "NRXP", "NSPR", "NTPIF", "NUTR", "NUVB", "NWHUF", "NXDR", "NXDT", "OBIO", "OCG", "ODV", "ODYS", "OKYO", "OMER", "OMI", "ONL", "OPAL", "OPHLY", "ORMP", "OSTX", "OSUR", "OXLC", "OXSQ", "PCOK", "PERF", "PETS", "PGEN", "PHK", "PHUN", "PIM", "PLTK", "PMETF", "PMI", "POAHY", "PPT", "PRME", "PROF", "PROK", "PROP", "PRQR", "PSEC", "PSNL", "PUMSY", "PXHI", "PYPD", "PYYX", "QD", "QDMI", "QIPT", "QTIH", "QTRX", "RBBN", "RC", "RCEL", "RCKT", "RDNW", "RECT", "RERE", "RES", "RGLXY", "RITR", "RLAY", "RMNI", "RMXI", "ROMA", "RPID", "RPT", "RR", "RRTS", "RSKD", "RSRBF", "RSSS", "RUPRF", "RZLV", "SANA", "SATL", "SAVA", "SB", "SBC", "SCAG", "SCRYY", "SDA", "SEER", "SEGG", "SERA", "SFRGY", "SGHT", "SHIM", "SHMD", "SIEB", "SKIN", "SKYE", "SLCJY", "SLDP", "SLI", "SLN", "SLND", "SLNG", "SLQT", "SLSN", "SLVYY", "SNDL", "SNT", "SOPH", "SORA", "SOTK", "SPCE", "SPRO", "SPWH", "SRFM", "SRG", "SRTS", "SSP", "STIM", "STKS", "STXS", "SURG", "SVC", "SVM", "SVRA", "SWIN", "SXGCF", "SY", "SYYNY", "TALK", "TARA", "TBLA", "TDIC", "TGE", "TGHL", "TGMPF", "THCH", "THTX", "TIXT", "TKNO", "TMOAY", "TOI", "TOLWF", "TRON", "TROX", "TRUE", "TRVG", "TSE", "TSHA", "TSI", "TTEC", "TTI", "TUSK", "TUYA", "TWNP", "UA", "UAA", "UAMY", "UBSFY", "UBXG", "UCL", "UEIC", "UFI", "UHG", "UIS", "ULCC", "UMICY", "UNCY", "UPLD", "UROY", "USAS", "USMT", "UURAF", "UXIN", "VELO", "VERI", "VFF", "VGAS", "VIOT", "VIR", "VLN", "VLOWY", "VMEO", "VNDA", "VOXR", "VRA", "VROYF", "VSME", "VSTA", "VSTS", "VTEX", "VTGN", "VTYX", "VUZI", "VVR", "VYGR", "VZLA", "WBX", "WHTCF", "WOOF", "WPFH", "WTF", "XBIT", "XFOR", "XRX", "XTKG", "YMT", "YSXT", "YYGH", "ZDCAF", "ZENA", "ZH", "ZIP", "ZJK", "ZKH", "ZSPC", "ZURA", "ZVIA" ],
     "data_bar_timeframe": "1D",
     "history_bars": 100,
     #"loop_sleep_seconds": 60 * 30,
@@ -157,31 +157,67 @@ def compute_position_size(cash: float, portfolio_value: float, entry_price: floa
     return max(qty, 0)
 
 # --- Alpaca bars fetcher ---
-def fetch_alpaca_bars(symbols: List[str], timeframe="1Day", start=None, end=None, limit=None):
+def fetch_alpaca_bars(symbols: List[str], timeframe="1Day", start=None, end=None, limit=None, batch_size=150):
+    """
+    Fetch historical bars for a list of symbols from Alpaca in batches.
+    
+    Parameters
+    ----------
+    symbols : List[str]
+        List of ticker symbols
+    timeframe : str
+        "1Day" or "1Min"
+    start, end : datetime-like, optional
+        Start and end dates
+    limit : int, optional
+        Limit number of bars per symbol
+    batch_size : int
+        Max number of symbols per API request (default=150, Alpaca max=200)
+    """
     client = StockHistoricalDataClient(APCA_KEY, APCA_SECRET)
+
     if start is None:
-        # If limit is set, fetch only recent bars
         if limit is not None:
-            # For daily bars, go back 'limit' days
-            start = pd.Timestamp(datetime.now() - timedelta(days=limit*2))
+            # Go back 2x days to ensure enough bars
+            start = pd.Timestamp(datetime.now() - timedelta(days=limit * 2))
         else:
             start = pd.Timestamp(datetime.now() - timedelta(days=365))
     if end is None:
         end = pd.Timestamp(datetime.now())
-    request_params = StockBarsRequest(
-        symbol_or_symbols=symbols,
-        timeframe=TimeFrame.Day if timeframe=="1Day" else TimeFrame.Minute,
-        start=start,
-        end=end
-    )
-    bars_resp = client.get_stock_bars(request_params)
-    bars_df = bars_resp.df.reset_index()
+
+    # --- Split symbols into batches ---
+    def chunked(lst, n):
+        for i in range(0, len(lst), n):
+            yield lst[i:i+n]
+
+    all_dfs = []
+    for chunk in chunked(symbols, batch_size):
+        request_params = StockBarsRequest(
+            symbol_or_symbols=chunk,
+            timeframe=TimeFrame.Day if timeframe == "1Day" else TimeFrame.Minute,
+            start=start,
+            end=end
+        )
+        bars_resp = client.get_stock_bars(request_params)
+        all_dfs.append(bars_resp.df.reset_index())
+
+    # --- Merge all batches into one DataFrame ---
+    if not all_dfs:
+        return {}
+
+    bars_df = pd.concat(all_dfs, ignore_index=True)
+
+    # --- Split back into per-symbol dict ---
     out = {}
     for sym in symbols:
-        df = bars_df[bars_df['symbol']==sym].sort_values('timestamp').rename(columns={"timestamp":"time"})[['time','open','high','low','close','volume']]
+        df = bars_df[bars_df['symbol'] == sym].sort_values('timestamp')
+        if df.empty:
+            continue
+        df = df.rename(columns={"timestamp": "time"})[['time', 'open', 'high', 'low', 'close', 'volume']]
         if limit is not None:
             df = df.tail(limit)
         out[sym] = df.reset_index(drop=True)
+
     return out
 
 # --- Strategy base classes ---
