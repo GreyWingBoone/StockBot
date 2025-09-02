@@ -33,7 +33,8 @@ from alpaca.data.historical import StockHistoricalDataClient
 # --- CONFIG ---
 RUN_BACKTEST = True  # True = run backtester, False = run live monitoring
 CONFIG = {
-    "symbols": ["CCL", "NVDA"],
+    "symbols": ["CCL", "NVDA", "FUBO"],
+    
     "data_bar_timeframe": "1D",
     "history_bars": 100,
     #"loop_sleep_seconds": 60 * 30,
@@ -106,6 +107,21 @@ with engine.begin() as conn:
             stop_loss REAL,
             target REAL,
             last_update TEXT
+        )
+    """))
+    conn.execute(text("""
+        CREATE TABLE IF NOT EXISTS backtest_trades (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            run_id TEXT,
+            symbol TEXT,
+            strategy TEXT,
+            entry REAL,
+            exit REAL,
+            entry_date TEXT,
+            exit_date TEXT,
+            qty INTEGER,
+            pnl REAL,
+            balance_after REAL
         )
     """))
 
@@ -247,10 +263,50 @@ class RSI_Pullback_Strategy(Strategy):
         return close >= pos['target'] or close <= pos['stop_loss'] or r > 70
 
 
+class MA_HighLow_Pullback_Strategy(Strategy):
+    def __init__(self, lookback=20, rsi_period=14, rsi_thresh=45):
+        self.lookback = lookback
+        self.rsi_period = rsi_period
+        self.rsi_thresh = rsi_thresh
+
+    def analyze(self, symbol, df):
+        if len(df) < self.lookback + 5: 
+            return None
+        highs_ma = sma(df['high'], self.lookback)
+        lows_ma = sma(df['low'], self.lookback)
+        r = rsi(df['close'], self.rsi_period)
+
+        # Conditions
+        last5_above_high = (df['close'].iloc[-6:-1] > highs_ma.iloc[-6:-1]).all()
+        trigger_break = df['close'].iloc[-1] < lows_ma.iloc[-1]
+        rsi_ok = r.iloc[-1] >= self.rsi_thresh
+
+        if last5_above_high and trigger_break and rsi_ok:
+            entry = df['close'].iloc[-1]
+            swing_low = df['low'].iloc[-5:-1].min()
+            atr = (df['high'] - df['low']).rolling(14).mean().iloc[-1]
+            stop = min(swing_low, entry - 2 * atr)
+            target = entry + (entry - stop) * 2
+            return Signal(symbol, "buy", f"MA High/Low Pullback (RSI={r.iloc[-1]:.1f})", entry, stop, target, 0)
+        return None
+
+    def should_exit(self, pos, df):
+        close = df['close'].iloc[-1]
+        lows_ma = sma(df['low'], self.lookback).iloc[-1]
+        return close <= pos['stop_loss'] or close >= pos['target'] or close < lows_ma
+
+
+
+
 
 
 # --- Backtester ---
 class PortfolioBacktester:
+
+    import uuid
+    RUN_ID = str(uuid.uuid4())
+
+
     def __init__(self, strategies: List[Strategy], symbols: List[str], initial_cash: float=500, risk_per_trade: float=0.01):
         self.strategies = strategies
         self.symbols = symbols
@@ -273,9 +329,28 @@ class PortfolioBacktester:
                     for strat in self.strategies:
                         if strat.should_exit(pos, df):
                             exit_price = price
-                            pnl = (exit_price - pos['entry'])*pos['qty']
-                            self.cash += pos['qty']*exit_price
-                            self.trades.append({"symbol":symbol,"strategy":pos['strategy'],"entry":pos['entry'],"exit":exit_price,"qty":pos['qty'],"pnl":pnl,"entry_date":pos['entry_date'],"exit_date":day})
+                            pnl = (exit_price - pos['entry']) * pos['qty']
+                            self.cash += pos['qty'] * exit_price
+                            balance_after = self.cash
+                            trade_record = {
+                                "symbol": symbol,
+                                "strategy": pos['strategy'],
+                                "entry": float(pos['entry']),
+                                "exit": float(exit_price),
+                                "qty": int(pos['qty']),
+                                "pnl": float(pnl),
+                                "entry_date": str(pos['entry_date']),
+                                "exit_date": str(day),
+                                "balance_after": float(balance_after)
+                            }
+                            self.trades.append(trade_record)
+
+                            with engine.begin() as conn:
+                                conn.execute(text("""
+                                    INSERT INTO backtest_trades 
+                                    (run_id, symbol, strategy, entry, exit, entry_date, exit_date, qty, pnl, balance_after)
+                                    VALUES (:run_id, :symbol, :strategy, :entry, :exit, :entry_date, :exit_date, :qty, :pnl, :balance_after)
+                                """), {**trade_record, "run_id": self.RUN_ID})
                             del self.positions[symbol]
                             break
                 else:
@@ -436,12 +511,13 @@ def main_loop_live():
 # --- Execution ---
 if __name__ == "__main__":
     #STRATEGIES = [SMA_Crossover_Strategy(), RSI_Pullback_Strategy(), TestStrategy()]
-    STRATEGIES = [SMA_Crossover_Strategy(), RSI_Pullback_Strategy()]
+    #STRATEGIES = [SMA_Crossover_Strategy(), RSI_Pullback_Strategy()]
+    STRATEGIES = [MA_HighLow_Pullback_Strategy()]
 
     if RUN_BACKTEST:
         logger.info("Running backtest")
         bars = fetch_alpaca_bars(CONFIG['symbols'], timeframe="1Day")
-        backtester = PortfolioBacktester(STRATEGIES, CONFIG['symbols'], initial_cash=500, risk_per_trade=0.01)
+        backtester = PortfolioBacktester(STRATEGIES, CONFIG['symbols'], initial_cash=500, risk_per_trade=0.02)
         trades, equity = backtester.run(bars)
         print("=== Trades ===")
         print(trades)
