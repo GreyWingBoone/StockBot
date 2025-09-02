@@ -33,8 +33,8 @@ from alpaca.data.historical import StockHistoricalDataClient
 # --- CONFIG ---
 RUN_BACKTEST = True  # True = run backtester, False = run live monitoring
 CONFIG = {
-    "symbols": ["CCL", "NVDA", "FUBO"],
-    
+    #"symbols": ["CCL", "NVDA", "FUBO"],
+    "symbols": ["AACG", "AAME", "AAPI", "ABAT", "ABCL", "ABSI", "ABUS", "ABVC", "ACCO", "ACDC", "ACHV", "ACIU", "ACRE", "ACTG", "ACXAF", "ADAG", "ADCT", "ADVM", "AFCG", "AGEN", "AGH", "AIJTY", "AIMFF", "AIOT", "AIRG", "AIRJ", "AISP", "AKBA", "ALEC", "ALM", "ALMS", "ALNPY", "ALSMY", "ALT", "ALTI", "ALVOF", "AMBI", "AMBR", "AMC", "AMPG", "AMPY", "AMTX", "ANEB", "ANGH", "ANIX", "ANNA", "ANNX", "ANRO", "ANTE", "AP"],
     "data_bar_timeframe": "1D",
     "history_bars": 100,
     #"loop_sleep_seconds": 60 * 30,
@@ -302,11 +302,6 @@ class MA_HighLow_Pullback_Strategy(Strategy):
 
 # --- Backtester ---
 class PortfolioBacktester:
-
-    import uuid
-    RUN_ID = str(uuid.uuid4())
-
-
     def __init__(self, strategies: List[Strategy], symbols: List[str], initial_cash: float=500, risk_per_trade: float=0.01):
         self.strategies = strategies
         self.symbols = symbols
@@ -316,66 +311,105 @@ class PortfolioBacktester:
         self.trades = []
         self.equity_curve = []
         self.risk_per_trade = risk_per_trade
-    def run(self, bars: Dict[str, pd.DataFrame]):
-        dates = bars[self.symbols[0]]['time']
-        for i in range(60, len(dates)):
-            day = dates.iloc[i]
-            for symbol in self.symbols:
-                df = bars[symbol].iloc[:i+1]
-                price = df['close'].iloc[-1]
-                # Check existing positions
-                if symbol in self.positions:
-                    pos = self.positions[symbol]
-                    for strat in self.strategies:
-                        if strat.should_exit(pos, df):
-                            exit_price = price
-                            pnl = (exit_price - pos['entry']) * pos['qty']
-                            self.cash += pos['qty'] * exit_price
-                            balance_after = self.cash
-                            trade_record = {
-                                "symbol": symbol,
-                                "strategy": pos['strategy'],
-                                "entry": float(pos['entry']),
-                                "exit": float(exit_price),
-                                "qty": int(pos['qty']),
-                                "pnl": float(pnl),
-                                "entry_date": str(pos['entry_date']),
-                                "exit_date": str(day),
-                                "balance_after": float(balance_after)
-                            }
-                            self.trades.append(trade_record)
 
-                            with engine.begin() as conn:
-                                conn.execute(text("""
-                                    INSERT INTO backtest_trades 
-                                    (run_id, symbol, strategy, entry, exit, entry_date, exit_date, qty, pnl, balance_after)
-                                    VALUES (:run_id, :symbol, :strategy, :entry, :exit, :entry_date, :exit_date, :qty, :pnl, :balance_after)
-                                """), {**trade_record, "run_id": self.RUN_ID})
-                            del self.positions[symbol]
-                            break
-                else:
-                    for strat in self.strategies:
-                        sig = strat.analyze(symbol, df)
-                        if sig:
-                            risk_amt = self.cash*self.risk_per_trade
-                            loss_per_share = max(sig.entry - sig.stop,1e-6)
-                            qty = int(risk_amt/loss_per_share)
-                            if qty>0 and qty*sig.entry <= self.cash:
-                                self.cash -= qty*sig.entry
-                                self.positions[symbol] = {"symbol":symbol,"entry":sig.entry,"stop_loss":sig.stop,"target":sig.target,"qty":qty,"strategy":strat.__class__.__name__,"entry_date":day}
-                            break
+    def run(self, bars: Dict[str, pd.DataFrame]):
+        # --- Build unified calendar of trading dates ---
+        all_dates = sorted(set().union(*[df['time'] for df in bars.values()]))
+        
+        for day in all_dates:
+            # Build a dictionary of available slices up to 'day'
+            daily_data = {}
+            for symbol, df in bars.items():
+                # Slice all rows up to and including 'day'
+                df_day = df[df['time'] <= day]
+                if df_day.empty:
+                    continue
+                daily_data[symbol] = df_day
+
+            # Skip if no data available for this date
+            if not daily_data:
+                continue
+
+            # --- Process open positions ---
+            for symbol, pos in list(self.positions.items()):
+                if symbol not in daily_data:
+                    continue
+                df = daily_data[symbol]
+                price = df['close'].iloc[-1]
+
+                for strat in self.strategies:
+                    if strat.should_exit(pos, df):
+                        exit_price = price
+                        pnl = (exit_price - pos['entry']) * pos['qty']
+                        self.cash += pos['qty'] * exit_price
+                        self.trades.append({
+                            "symbol": symbol,
+                            "strategy": pos['strategy'],
+                            "entry": pos['entry'],
+                            "exit": exit_price,
+                            "qty": pos['qty'],
+                            "pnl": pnl,
+                            "entry_date": str(pos['entry_date']),
+                            "exit_date": str(day),
+                            "balance_after": float(self.cash)
+                        })
+                        del self.positions[symbol]
+                        break
+
+            # --- Look for new entries ---
+            for symbol, df in daily_data.items():
+                if symbol in self.positions:
+                    continue
+                for strat in self.strategies:
+                    sig = strat.analyze(symbol, df)
+                    if sig:
+                        risk_amt = self.cash * self.risk_per_trade
+                        loss_per_share = max(sig.entry - sig.stop, 1e-6)
+                        qty = int(risk_amt / loss_per_share)
+                        if qty > 0 and qty * sig.entry <= self.cash:
+                            self.cash -= qty * sig.entry
+                            self.positions[symbol] = {
+                                "symbol": symbol,
+                                "entry": float(sig.entry),
+                                "stop_loss": float(sig.stop),
+                                "target": float(sig.target),
+                                "qty": int(qty),
+                                "strategy": strat.__class__.__name__,
+                                "entry_date": str(day)
+                            }
+                        break  # only one strategy triggers per symbol per day
+
+            # --- Update equity curve ---
             equity = self.cash
             for pos in self.positions.values():
-                equity += pos['qty']*bars[pos['symbol']].iloc[i]['close']
-            self.equity_curve.append(equity)
-        return pd.DataFrame(self.trades), pd.Series(self.equity_curve, index=dates[60:])
+                sym_df = daily_data.get(pos['symbol'])
+                if sym_df is not None:
+                    equity += pos['qty'] * sym_df['close'].iloc[-1]
+            self.equity_curve.append((day, equity))
+
+        # Convert equity_curve to a Series for plotting
+        equity_series = pd.Series(
+            [val for _, val in self.equity_curve],
+            index=[day for day, _ in self.equity_curve]
+        )
+        return pd.DataFrame(self.trades), equity_series
+
     def summary(self):
-        if not self.trades: return {"trades":0}
+        if not self.trades:
+            return {"trades": 0}
         df = pd.DataFrame(self.trades)
-        total_return = (self.equity_curve[-1]-self.initial_cash)/self.initial_cash*100
-        win_rate = (df['pnl']>0).mean()*100
+        total_return = (self.equity_curve[-1][1] - self.initial_cash) / self.initial_cash * 100
+        win_rate = (df['pnl'] > 0).mean() * 100
         avg_pnl = df['pnl'].mean()
-        return {"overall":{"trades":len(df),"win_rate":win_rate,"avg_pnl":avg_pnl,"total_return_%":total_return}}
+        return {
+            "overall": {
+                "trades": len(df),
+                "win_rate": win_rate,
+                "avg_pnl": avg_pnl,
+                "total_return_%": total_return
+            }
+        }
+
 
 def process_symbol_live(symbol: str, strategies: List[Strategy]):
 
