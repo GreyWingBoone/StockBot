@@ -37,8 +37,9 @@ RUN_ID = str(uuid.uuid4())
 RUN_BACKTEST = True  # True = run backtester, False = run live monitoring
 CONFIG = {
     #"symbols": ["CCL", "NVDA", "FUBO"],
-    "symbols": ["AACG", "AAME", "AAPI", "ABAT", "ABCL", "ABSI", "ABUS", "ABVC", "ACCO", "ACDC", "ACHV", "ACIU", "ACRE", "ACTG", "ACXAF", "ADAG", "ADCT", "ADVM", "AFCG", "AGEN", "AGH", "AIJTY", "AIMFF", "AIOT", "AIRG", "AIRJ", "AISP", "AKBA", "ALEC", "ALM", "ALMS", "ALNPY", "ALSMY", "ALT", "ALTI", "ALVOF", "AMBI", "AMBR", "AMC", "AMPG", "AMPY", "AMTX", "ANEB", "ANGH", "ANIX", "ANNA", "ANNX", "ANRO", "ANTE", "AP", "API", "APPS", "APT", "AQST", "ARAI", "AREC", "ARKO", "ARMP", "ARTV", "ASM", "ASOMY", "ASTL", "ATAI", "ATLN", "ATOM", "ATUS", "AUID", "AVIR", "AWP", "AXTI", "BAER", "BCHG", "BDMD", "BDN", "BDTX", "BEEP", "BGS", "BHR", "BIOA", "BIOX", "BIREF", "BLDE", "BLDP", "BLND", "BMHL", "BNEFF", "BORR", "BRAG", "BRBS", "BRIA", "BRLS", "BROGF", "BRY", "BSGM", "BTAI", "BTBIF", "BTBT", "BTCM", "BTCS", "BTE", "BTM", "BTMD", "BTQQF", "BW", "BYND", "BZAI", "BZUN", "CAAS", "CANG", "CATO", "CATX", "CBRA", "CCCC", "CCLD", "CDXS", "CDZI", "CELU", "CFWFF", "CGTX", "CHMI", "CHTH", "CIK", "CLAR", "CLBEY", "CLNE", "CLOV", "CLPR", "CLYM", "CMPS", "CMPX", "CMRB", "CMRC", "CMRF", "CMTG", "CMU", "CNDT", "CNTB", "CNTY", "CNVS", "CPIX", "CPSH", "CRDF", "CRGO", "CRNT", "CRON", "CTKB", "CTMX", "CTOR", "CTW", "CULP", "CURI", "CURV", "CV", "CXE", "CYBHF", "CYH", "DAIC", "DBI", "DC", "DDD", "DDEJF", "DDL", "DEFT", "DELHY", "DENN", "DGXX", "DH", "DHC", "DHF", "DHX", "DHY", "DIBS", "DLNG", "DLTH", "DNGDF", "DNUT", "DOUG", "DPRO", "DRTS", "DSWL", "DTI", "DTIL", "DVS", "DVSPF", "EB", "ECNCF", "ECSNF", "EDAP", "EDIT", "EGY", "EHTH", "EKTAY", "ELDN", "ELRNF", "ELUT", "EMX", "ENGN", "ENGS", "ESGL", "ESPR", "ETHZ", "EU", "EUDA", "EVC", "EVEX", "EVGO", "EVTL", "EWCZ", "FACO", "FBIO", "FCCN", "FCEL", "FEAM", "FECCF", "FF", "FFAI", "FIP", "FKWL", "FLD", "FLL", "FLNT", "FLX", "FLYX", "FNKO", "FOSL", "FRMUF", "FTCO", "FTEK", "FUBO", "FUFU", "GALT", "GAU", "GCI", "GCL", "GCV", "GDC", "GDRX", "GDRZF", "GEG", "GEODF", "GGN", "GGT", "GHG", "GLUE", "GLXZ", "GMM", "GNLX", "GNTA", "GOAI", "GOSS", "GOTU", "GPMT", "GRAN", "GROY", "GSIT", "GSM", "GTE", "GUYGF", "HAIVF", "HBNB", "HCAT", "HELFY", "HEPS", "HFFG", "HIO", "HIT", "HITI", "HIVE", "HIX", "HLLY", "HLSCF", "HLTRF", "HLVX", "HNST", "HPAI", "HPP", "HTLM", "HURA", "HUYA", "HYEX", "HYMC", "IAF", "ICTSF", "IH", "IHRT", "IMAB", "IMDX", "IMMX", "IMPP", "INDI", "INMB", "INNV", "INO", "INVE", "IOVA", "IPA", "IPMLF", "IRBT", "ISPR", "ITFS", "ITMSF", "ITRG", "IZEA", "JAGGF", "JRNGF", "KELTF", "KHTRF", "KLRS", "KOPN", "KRMD", "KRNGY", "KSIOF", "KULR", "KYTX", "LAC", "LAES", "LANV", "LAR", "LASE", "LCUT", "LDI", "LFT", "LHSW", "LIDR", "LIMN", "LIMX", "LITRF", "LOCL", "LODE", "LOT", "LPRO", "LRMR", "LSAK", "LTRX", "LVWR", "LWLG", "LXEO", "LZM", "LZMH", "MAAS", "MAMO", "MATH", "MAUTF", "MAXN", "MBOT", "MCCRF", "MDRX", "MDXH", "MEDXF", "MEHCQ", "MEIP", "MERC", "MGF", "MIN", "MMLP", "MMT", "MNKD", "MNTK", "MPU", "MRT", "MRVI", "MSC", "MVST", "MX", "MXGFF", "NAMM", "NAT", "NB", "NBBI", "NCMI", "NEOV", "NEXA", "NFE", "NGENF", "NHTC", "NIU", "NKRKY", "NKTX", "NNBR", "NNOX", "NNXPF", "NPWR", "NRGV", "NRO", "NRXP", "NSPR", "NTPIF", "NUTR", "NUVB", "NWHUF", "NXDR", "NXDT", "OBIO", "OCG", "ODV", "ODYS", "OKYO", "OMER", "OMI", "ONL", "OPAL", "OPHLY", "ORMP", "OSTX", "OSUR", "OXLC", "OXSQ", "PCOK", "PERF", "PETS", "PGEN", "PHK", "PHUN", "PIM", "PLTK", "PMETF", "PMI", "POAHY", "PPT", "PRME", "PROF", "PROK", "PROP", "PRQR", "PSEC", "PSNL", "PUMSY", "PXHI", "PYPD", "PYYX", "QD", "QDMI", "QIPT", "QTIH", "QTRX", "RBBN", "RC", "RCEL", "RCKT", "RDNW", "RECT", "RERE", "RES", "RGLXY", "RITR", "RLAY", "RMNI", "RMXI", "ROMA", "RPID", "RPT", "RR", "RRTS", "RSKD", "RSRBF", "RSSS", "RUPRF", "RZLV", "SANA", "SATL", "SAVA", "SB", "SBC", "SCAG", "SCRYY", "SDA", "SEER", "SEGG", "SERA", "SFRGY", "SGHT", "SHIM", "SHMD", "SIEB", "SKIN", "SKYE", "SLCJY", "SLDP", "SLI", "SLN", "SLND", "SLNG", "SLQT", "SLSN", "SLVYY", "SNDL", "SNT", "SOPH", "SORA", "SOTK", "SPCE", "SPRO", "SPWH", "SRFM", "SRG", "SRTS", "SSP", "STIM", "STKS", "STXS", "SURG", "SVC", "SVM", "SVRA", "SWIN", "SXGCF", "SY", "SYYNY", "TALK", "TARA", "TBLA", "TDIC", "TGE", "TGHL", "TGMPF", "THCH", "THTX", "TIXT", "TKNO", "TMOAY", "TOI", "TOLWF", "TRON", "TROX", "TRUE", "TRVG", "TSE", "TSHA", "TSI", "TTEC", "TTI", "TUSK", "TUYA", "TWNP", "UA", "UAA", "UAMY", "UBSFY", "UBXG", "UCL", "UEIC", "UFI", "UHG", "UIS", "ULCC", "UMICY", "UNCY", "UPLD", "UROY", "USAS", "USMT", "UURAF", "UXIN", "VELO", "VERI", "VFF", "VGAS", "VIOT", "VIR", "VLN", "VLOWY", "VMEO", "VNDA", "VOXR", "VRA", "VROYF", "VSME", "VSTA", "VSTS", "VTEX", "VTGN", "VTYX", "VUZI", "VVR", "VYGR", "VZLA", "WBX", "WHTCF", "WOOF", "WPFH", "WTF", "XBIT", "XFOR", "XRX", "XTKG", "YMT", "YSXT", "YYGH", "ZDCAF", "ZENA", "ZH", "ZIP", "ZJK", "ZKH", "ZSPC", "ZURA", "ZVIA" ],
+    #"symbols": ["AACG", "AAME", "AAPI", "ABAT", "ABCL", "ABSI", "ABUS", "ABVC", "ACCO", "ACDC", "ACHV", "ACIU", "ACRE", "ACTG", "ACXAF", "ADAG", "ADCT", "ADVM", "AFCG", "AGEN", "AGH", "AIJTY", "AIMFF", "AIOT", "AIRG", "AIRJ", "AISP", "AKBA", "ALEC", "ALM", "ALMS", "ALNPY", "ALSMY", "ALT", "ALTI", "ALVOF", "AMBI", "AMBR", "AMC", "AMPG", "AMPY", "AMTX", "ANEB", "ANGH", "ANIX", "ANNA", "ANNX", "ANRO", "ANTE", "AP", "API", "APPS", "APT", "AQST", "ARAI", "AREC", "ARKO", "ARMP", "ARTV", "ASM", "ASOMY", "ASTL", "ATAI", "ATLN", "ATOM", "ATUS", "AUID", "AVIR", "AWP", "AXTI", "BAER", "BCHG", "BDMD", "BDN", "BDTX", "BEEP", "BGS", "BHR", "BIOA", "BIOX", "BIREF", "BLDE", "BLDP", "BLND", "BMHL", "BNEFF", "BORR", "BRAG", "BRBS", "BRIA", "BRLS", "BROGF", "BRY", "BSGM", "BTAI", "BTBIF", "BTBT", "BTCM", "BTCS", "BTE", "BTM", "BTMD", "BTQQF", "BW", "BYND", "BZAI", "BZUN", "CAAS", "CANG", "CATO", "CATX", "CBRA", "CCCC", "CCLD", "CDXS", "CDZI", "CELU", "CFWFF", "CGTX", "CHMI", "CHTH", "CIK", "CLAR", "CLBEY", "CLNE", "CLOV", "CLPR", "CLYM", "CMPS", "CMPX", "CMRB", "CMRC", "CMRF", "CMTG", "CMU", "CNDT", "CNTB", "CNTY", "CNVS", "CPIX", "CPSH", "CRDF", "CRGO", "CRNT", "CRON", "CTKB", "CTMX", "CTOR", "CTW", "CULP", "CURI", "CURV", "CV", "CXE", "CYBHF", "CYH", "DAIC", "DBI", "DC", "DDD", "DDEJF", "DDL", "DEFT", "DELHY", "DENN", "DGXX", "DH", "DHC", "DHF", "DHX", "DHY", "DIBS", "DLNG", "DLTH", "DNGDF", "DNUT", "DOUG", "DPRO", "DRTS", "DSWL", "DTI", "DTIL", "DVS", "DVSPF", "EB", "ECNCF", "ECSNF", "EDAP", "EDIT", "EGY", "EHTH", "EKTAY", "ELDN", "ELRNF", "ELUT", "EMX", "ENGN", "ENGS", "ESGL", "ESPR", "ETHZ", "EU", "EUDA", "EVC", "EVEX", "EVGO", "EVTL", "EWCZ", "FACO", "FBIO", "FCCN", "FCEL", "FEAM", "FECCF", "FF", "FFAI", "FIP", "FKWL", "FLD", "FLL", "FLNT", "FLX", "FLYX", "FNKO", "FOSL", "FRMUF", "FTCO", "FTEK", "FUBO", "FUFU", "GALT", "GAU", "GCI", "GCL", "GCV", "GDC", "GDRX", "GDRZF", "GEG", "GEODF", "GGN", "GGT", "GHG", "GLUE", "GLXZ", "GMM", "GNLX", "GNTA", "GOAI", "GOSS", "GOTU", "GPMT", "GRAN", "GROY", "GSIT", "GSM", "GTE", "GUYGF", "HAIVF", "HBNB", "HCAT", "HELFY", "HEPS", "HFFG", "HIO", "HIT", "HITI", "HIVE", "HIX", "HLLY", "HLSCF", "HLTRF", "HLVX", "HNST", "HPAI", "HPP", "HTLM", "HURA", "HUYA", "HYEX", "HYMC", "IAF", "ICTSF", "IH", "IHRT", "IMAB", "IMDX", "IMMX", "IMPP", "INDI", "INMB", "INNV", "INO", "INVE", "IOVA", "IPA", "IPMLF", "IRBT", "ISPR", "ITFS", "ITMSF", "ITRG", "IZEA", "JAGGF", "JRNGF", "KELTF", "KHTRF", "KLRS", "KOPN", "KRMD", "KRNGY", "KSIOF", "KULR", "KYTX", "LAC", "LAES", "LANV", "LAR", "LASE", "LCUT", "LDI", "LFT", "LHSW", "LIDR", "LIMN", "LIMX", "LITRF", "LOCL", "LODE", "LOT", "LPRO", "LRMR", "LSAK", "LTRX", "LVWR", "LWLG", "LXEO", "LZM", "LZMH", "MAAS", "MAMO", "MATH", "MAUTF", "MAXN", "MBOT", "MCCRF", "MDRX", "MDXH", "MEDXF", "MEHCQ", "MEIP", "MERC", "MGF", "MIN", "MMLP", "MMT", "MNKD", "MNTK", "MPU", "MRT", "MRVI", "MSC", "MVST", "MX", "MXGFF", "NAMM", "NAT", "NB", "NBBI", "NCMI", "NEOV", "NEXA", "NFE", "NGENF", "NHTC", "NIU", "NKRKY", "NKTX", "NNBR", "NNOX", "NNXPF", "NPWR", "NRGV", "NRO", "NRXP", "NSPR", "NTPIF", "NUTR", "NUVB", "NWHUF", "NXDR", "NXDT", "OBIO", "OCG", "ODV", "ODYS", "OKYO", "OMER", "OMI", "ONL", "OPAL", "OPHLY", "ORMP", "OSTX", "OSUR", "OXLC", "OXSQ", "PCOK", "PERF", "PETS", "PGEN", "PHK", "PHUN", "PIM", "PLTK", "PMETF", "PMI", "POAHY", "PPT", "PRME", "PROF", "PROK", "PROP", "PRQR", "PSEC", "PSNL", "PUMSY", "PXHI", "PYPD", "PYYX", "QD", "QDMI", "QIPT", "QTIH", "QTRX", "RBBN", "RC", "RCEL", "RCKT", "RDNW", "RECT", "RERE", "RES", "RGLXY", "RITR", "RLAY", "RMNI", "RMXI", "ROMA", "RPID", "RPT", "RR", "RRTS", "RSKD", "RSRBF", "RSSS", "RUPRF", "RZLV", "SANA", "SATL", "SAVA", "SB", "SBC", "SCAG", "SCRYY", "SDA", "SEER", "SEGG", "SERA", "SFRGY", "SGHT", "SHIM", "SHMD", "SIEB", "SKIN", "SKYE", "SLCJY", "SLDP", "SLI", "SLN", "SLND", "SLNG", "SLQT", "SLSN", "SLVYY", "SNDL", "SNT", "SOPH", "SORA", "SOTK", "SPCE", "SPRO", "SPWH", "SRFM", "SRG", "SRTS", "SSP", "STIM", "STKS", "STXS", "SURG", "SVC", "SVM", "SVRA", "SWIN", "SXGCF", "SY", "SYYNY", "TALK", "TARA", "TBLA", "TDIC", "TGE", "TGHL", "TGMPF", "THCH", "THTX", "TIXT", "TKNO", "TMOAY", "TOI", "TOLWF", "TRON", "TROX", "TRUE", "TRVG", "TSE", "TSHA", "TSI", "TTEC", "TTI", "TUSK", "TUYA", "TWNP", "UA", "UAA", "UAMY", "UBSFY", "UBXG", "UCL", "UEIC", "UFI", "UHG", "UIS", "ULCC", "UMICY", "UNCY", "UPLD", "UROY", "USAS", "USMT", "UURAF", "UXIN", "VELO", "VERI", "VFF", "VGAS", "VIOT", "VIR", "VLN", "VLOWY", "VMEO", "VNDA", "VOXR", "VRA", "VROYF", "VSME", "VSTA", "VSTS", "VTEX", "VTGN", "VTYX", "VUZI", "VVR", "VYGR", "VZLA", "WBX", "WHTCF", "WOOF", "WPFH", "WTF", "XBIT", "XFOR", "XRX", "XTKG", "YMT", "YSXT", "YYGH", "ZDCAF", "ZENA", "ZH", "ZIP", "ZJK", "ZKH", "ZSPC", "ZURA", "ZVIA" ],
     #"symbols": ["ABOS", "ABVE", "ACHFF", "ACRS", "ADV", "AEI", "AERG", "AFLYY", "AGL", "AGMRF", "AHG", "AIIO", "AINMF", "AKTAF", "ALLO", "ALTO", "ALXO", "ALYAF", "AMTD", "AMXEF", "ANL", "ANRGF", "AOIFF", "APXCF", "APYX", "ARAAF", "ARAY", "ARBE", "AREC", "ARREF", "ASCUF", "ASGOF", "ATNM", "ATPC", "AUGG", "AURX", "AUTL", "BEAT", "BEDU", "BFLY", "BGAOY", "BITF", "BLDP", "BLNK", "BRCC", "BTOC", "BUKS", "BYSI", "BZFD", "CABA", "CAPTF", "CBUS", "CCARF", "CCG", "CCO", "CDLX", "CERS", "CGC", "CGEN", "CHGG", "CHRS", "CIBEY", "CNNEF", "CNPRF", "COOK", "CORBF", "CPOP", "CRBU", "CRDF", "CRDL", "CRLBF", "CRNT", "CTM", "CURR", "CVGI", "DCGO", "DCMDF", "DRRX", "DSX", "DSY", "DTI", "DWSN", "DXLG", "ECRTF", "ECX", "EDTXF", "EGHT", "ELEMF", "EM", "EMOTF", "ENTX", "EQ", "ERAS", "EREUF", "ESVIF", "ETOLF", "EUDA", "EXFY", "FATE", "FAVO", "FNGR", "FSP", "GANX", "GCTS", "GERN", "GETY", "GEVO", "GGGOF", "GKOR", "GLGDF", "GMTLF", "GNSS", "GOTRF", "GPRO", "GRO", "GROV", "GRWG", "GRYP", "HAIN", "HBGRY", "HGBL", "HGRAF", "HKD", "HMENF", "HMR", "HNCUF", "HOVR", "HOWL", "HRTX", "HSTXF", "HUMA", "HYLN", "HYPR", "ICCM", "ICG", "IFRX", "IKT", "ILLMF", "INMB", "INVZ", "IOBT", "IONI", "IPA", "IRD", "IRWD", "ISTKF", "ITFY", "IVVD", "KBSX", "KLDCF", "KLTR", "KNDI", "KOS", "LAB", "LAZR", "LCTX", "LDI", "LGCFF", "LGO", "LGSXY", "LOOP", "LOVFF", "LRAXF", "LUCD", "LUCMF", "LUNG", "LVRO", "LXRX", "MAPS", "MCHX", "MCRP", "MDAI", "MDIA", "MESA", "MFGCF", "MGNX", "MGTE", "MGX", "MIST", "MLIZY", "MLPNF", "MNOV", "MNY", "MOBX", "MREO", "MRTMF", "MVIS", "MXCT", "NAMI", "NIPG", "NMRA", "NNDM", "NOTV", "NRDY", "NXXT", "NYWKF", "OABI", "OCGN", "OGI", "OGNNF", "OLPX", "ONCY", "OPK", "OPTX", "OVID", "PACB", "PDSB", "PLBY", "PLGDF", "PLRX", "PLUG", "PLX", "PMEC", "PMVP", "PNBK", "POSC", "POWW", "PRPL", "PSQH", "PTRUF", "PVL", "PXHI", "PYXS", "PZG", "QNCX", "QSI", "RAASY", "RCT", "REED", "REEMF", "REI", "REKR", "RGLSF", "RIOFF", "RMTI", "ROMA", "RPTX", "RTMAF", "RUBLF", "RXT", "SABR", "SACH", "SAFX", "SCZMF", "SES", "SGLA", "SHCAY", "SKYC", "SKYX", "SLS", "SMRT", "SMTGY", "SMXT", "SND", "SOL", "SPPJY", "SPWR", "SROYF", "STPGF", "SUUN", "SXTC", "TCRX", "TE", "TEAD", "TELA", "TGHLF", "THBRF", "THM", "THNCF", "THSGF", "TLRY", "TLSA", "TMQ", "TMRC", "TNYA", "TRNLY", "TROO", "TTNMF", "TYGO", "UAVS", "URG", "URLOF", "VANI", "VGZ", "VKSC", "VLN", "VRMTF", "VRNOF", "VSA", "WALD", "WDH", "WGRX", "WHWK", "WLDBF", "WOLF", "WRAP", "WRDLY", "WRN", "WTI", "WVMDF", "XCH", "XHG", "YOUL", "YTRA", "ZNTL"],
+    "symbols": ["NKTX"],
     "data_bar_timeframe": "1Day",
     "history_bars": 50,
     "loop_sleep_seconds": 60 * 30,
@@ -328,53 +329,79 @@ class RSI_Pullback_Strategy(Strategy):
 
 
 class MA_HighLow_Pullback_Strategy(Strategy):
-    def __init__(self, lookback=20, rsi_period=14, rsi_thresh=45, recovery_window=6):
+    def __init__(self, lookback=20, rsi_period=14, rsi_thresh=45, recovery_window=6, trend_window=5):
         self.lookback = lookback
         self.rsi_period = rsi_period
         self.rsi_thresh = rsi_thresh
         self.recovery_window = recovery_window
+        self.trend_window = trend_window
+
+        # state tracking
+        self.pending_break_idx = None
 
     def analyze(self, symbol, df):
-        if len(df) < self.lookback + self.recovery_window + 2:
+        if len(df) < self.lookback + self.recovery_window + self.trend_window + 2:
             return None
 
         highs_ma = sma(df['high'], self.lookback)
         lows_ma = sma(df['low'], self.lookback)
+        close_sma5 = sma(df['close'], 5)
         r = rsi(df['close'], self.rsi_period)
 
-        # Conditions
-        last5_above_high = (df['close'].iloc[-(self.lookback//4+1):-1] > highs_ma.iloc[-(self.lookback//4+1):-1]).all()
+        today_idx = len(df) - 1
+        entry_signal = None
 
-        # Break within last N days
-        recent_break = (df['close'].iloc[-(self.recovery_window+1):-1] < lows_ma.iloc[-(self.recovery_window+1):-1]).any()
-        # Recovery = today's close above lows_ma
-        recovery = df['close'].iloc[-1] > lows_ma.iloc[-1]
-        rsi_ok = r.iloc[-1] >= self.rsi_thresh
+        # --- Step 1: Look for break if no break is active ---
+        if self.pending_break_idx is None:
+            if df['close'].iloc[-1] < lows_ma.iloc[-1]:
+                # check trend condition within trend_window bars BEFORE today
+                start_idx = max(0, today_idx - self.trend_window)
+                trend_ok = (close_sma5.iloc[start_idx:today_idx] > highs_ma.iloc[start_idx:today_idx]).any()
 
-        if last5_above_high and recent_break and recovery and rsi_ok:
-            entry = df['close'].iloc[-1]
-            swing_low = df['low'].iloc[-5:-1].min()
-            atr = (df['high'] - df['low']).rolling(14).mean().iloc[-1]
-            stop = min(swing_low, entry - 2 * atr)
-            target = entry + (entry - stop) * 2
-            return Signal(
-                symbol,
-                "buy",
-                f"MA High/Low Pullback + Recovery (RSI={r.iloc[-1]:.1f})",
-                entry,
-                stop,
-                target,
-                0
-            )
-        return None
+                if trend_ok:
+                    # register break
+                    self.pending_break_idx = today_idx
+
+        # --- Step 2: If a break is active, check for recovery ---
+        if self.pending_break_idx is not None:
+            bars_since_break = today_idx - self.pending_break_idx
+
+            if bars_since_break <= self.recovery_window:
+                recovery = df['close'].iloc[-1] > lows_ma.iloc[-1]
+                rsi_ok = r.iloc[-1] >= self.rsi_thresh
+
+                if recovery and rsi_ok:
+                    entry = df['close'].iloc[-1]
+                    swing_low = df['low'].iloc[self.pending_break_idx:today_idx].min()
+                    atr = (df['high'] - df['low']).rolling(14).mean().iloc[-1]
+                    stop = min(swing_low, entry - 2 * atr)
+                    target = entry + (entry - stop) * 2
+
+                    entry_signal = Signal(
+                        symbol,
+                        "buy",
+                        f"MA High/Low Pullback (RSI={r.iloc[-1]:.1f})",
+                        entry,
+                        stop,
+                        target,
+                        0
+                    )
+                    # reset break after entry
+                    self.pending_break_idx = None
+
+            else:
+                # recovery window expired, reset
+                self.pending_break_idx = None
+
+        return entry_signal
 
     def should_exit(self, pos, df):
         close = df['close'].iloc[-1]
         lows_ma = sma(df['low'], self.lookback).iloc[-1]
 
         # 3-day consecutive negative closes
-        if len(df) >= 9:  # need at least 4 closes to compare
-            last3_pct_changes = df['close'].pct_change().iloc[-8:]
+        if len(df) >= 4:
+            last3_pct_changes = df['close'].pct_change().iloc[-3:]
             three_red_days = (last3_pct_changes < 0).all()
         else:
             three_red_days = False
