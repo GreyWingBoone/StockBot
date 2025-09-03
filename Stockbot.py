@@ -375,7 +375,10 @@ class MA_HighLow_Pullback_Strategy(Strategy):
                     swing_low = df['low'].iloc[self.pending_break_idx:today_idx].min()
                     atr = (df['high'] - df['low']).rolling(14).mean().iloc[-1]
                     stop = min(swing_low, entry - 2 * atr)
-                    target = entry + (entry - stop) * 2
+
+                    # Calculate target as the max high from 10 days before the entry bar
+                    lookback_start = max(0, today_idx - 10)
+                    target = df['high'].iloc[lookback_start:today_idx].max()
 
                     entry_signal = Signal(
                         symbol,
@@ -386,6 +389,7 @@ class MA_HighLow_Pullback_Strategy(Strategy):
                         target,
                         0
                     )
+                    print(f"MA_HighLow_Pullback_Strategy entry signal for {symbol} at {entry:.2f}, stop {stop:.2f}, target {target:.2f}")
                     # reset break after entry
                     self.pending_break_idx = None
 
@@ -412,6 +416,7 @@ class MA_HighLow_Pullback_Strategy(Strategy):
             or close < lows_ma
             or three_red_days
         )
+
 
 
 
